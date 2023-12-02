@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        CircularQueue<int> circularQueue = new CircularQueue<int>(5);
+
+        circularQueue.Enqueue(1);
+        circularQueue.Enqueue(2);
+        circularQueue.Enqueue(3);
+
+        Console.WriteLine("Dequeue: " + circularQueue.Dequeue());
+        Console.WriteLine("Peek: " + circularQueue.Peek());
+    }
+}
+
+class CircularQueue<T>
+{
+    private T[] items;
+    private int front;
+    private int rear;
+    private int capacity;
+    private int count;
+
+    private int Count => count;
+
+    public CircularQueue(int capacity)
+    {
+        this.capacity = capacity;
+        items = new T[capacity];
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+    public void Enqueue(T item)
+    {
+        if (count == capacity)
+        {
+            throw new InvalidOperationException("Queue is full.");
+        }
+        rear = (rear + 1) % capacity;
+        items[rear] = item;
+        count++;
+    }
+    public T Dequeue()
+    {
+        if (count == 0)
+        {
+            throw new InvalidOperationException("Queue is empty.");
+        }
+        T item = items[front];
+        front = (front + 1) % capacity;
+        count--;
+        return item;
+    }
+    public T Peek()
+    {
+        if (count == 0)
+        {
+            throw new InvalidOperationException("Queue is empty");
+        }
+        return items[front];
+    }
+}
