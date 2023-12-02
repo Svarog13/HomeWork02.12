@@ -1,0 +1,29 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int a = 5, b = 10;
+        Console.WriteLine($"Before swap: a = {a}, b = {b}");
+
+        Swap(ref a, ref b);
+
+        Console.WriteLine($"After swap: a = {a}, b = {b}");
+
+      
+        string str1 = "Hello", str2 = "World";
+        Console.WriteLine($"Before swap: str1 = {str1}, str2 = {str2}");
+
+        Swap(ref str1, ref str2);
+
+        Console.WriteLine($"After swap: str1 = {str1}, str2 = {str2}");
+    }
+
+    static void Swap<T>(ref T first, ref T second)
+    {
+        T temp = first;
+        first = second;
+        second = temp;
+    }
+}
