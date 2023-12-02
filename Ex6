@@ -1,0 +1,122 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        LinkedList<int> linkedList = new LinkedList<int>();
+
+        linkedList.AddToFront(3);
+        linkedList.AddToFront(2);
+        linkedList.AddToFront(1);
+
+        linkedList.AddToBack(4);
+        linkedList.AddToBack(5);
+
+        linkedList.Display();
+
+        linkedList.RemoveFromFront();
+        linkedList.RemoveFromBack();
+
+        linkedList.Display();
+    }
+}
+
+class Node<T>
+{
+    public T Data { get; set; }
+    public Node<T> Next { get; set; }
+
+    public Node(T data)
+    {
+        Data = data;
+        Next = null;
+    }
+}
+
+class LinkedList<T>
+{
+    private Node<T> head;
+    private int count;
+
+    public int Count => count;
+
+    public LinkedList()
+    {
+        head = null;
+        count = 0;
+    }
+
+    public void AddToFront(T data)
+    {
+        Node<T> newNode = new Node<T>(data);
+        newNode.Next = head;
+        head = newNode;
+        count++;
+    }
+
+    public void AddToBack(T data)
+    {
+        Node<T> newNode = new Node<T>(data);
+
+        if (head == null)
+        {
+            head = newNode;
+        }
+        else
+        {
+            Node<T> current = head;
+            while (current.Next != null)
+            {
+                current = current.Next;
+            }
+            current.Next = newNode;
+        }
+
+        count++;
+    }
+
+    public void RemoveFromFront()
+    {
+        if (head != null)
+        {
+            head = head.Next;
+            count--;
+        }
+    }
+
+    public void RemoveFromBack()
+    {
+        if (head == null)
+        {
+            return;
+        }
+
+        if (head.Next == null)
+        {
+            head = null;
+        }
+        else
+        {
+            Node<T> current = head;
+            while (current.Next.Next != null)
+            {
+                current = current.Next;
+            }
+            current.Next = null;
+        }
+
+        count--;
+    }
+
+    public void Display()
+    {
+        Node<T> current = head;
+        while (current != null)
+        {
+            Console.Write(current.Data + " ");
+            current = current.Next;
+        }
+        Console.WriteLine();
+    }
+}
