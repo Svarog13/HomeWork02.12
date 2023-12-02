@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        PriorityQueue<int> priorityQueue = new PriorityQueue<int>((x, y) => x > y);
+        priorityQueue.Enqueue(5);
+        priorityQueue.Enqueue(3);
+        priorityQueue.Enqueue(8);
+
+        Console.WriteLine("Dequeue: " + priorityQueue.Dequeue());
+        Console.WriteLine("Peek: " + priorityQueue.Peek());
+    }
+}
+
+class PriorityQueue<T>
+{
+    private List<T> items = new List<T>();
+    private Func<T, T, bool> compareFunction;
+
+    public int Count => items.Count;
+    public PriorityQueue(Func<T, T, bool> compareFunction)
+    {
+        this.compareFunction = compareFunction;
+    }
+    public void Enqueue(T item)
+    {
+        items.Add(item);
+        items.Sort((x, y) => compareFunction(x, y) ? 1 : -1);
+    }
+    public T Dequeue()
+    {
+        if (Count == 0)
+        {
+            throw new InvalidOperationException("Queue is empty.");
+        }
+
+        T item = items[0];
+        items.RemoveAt(0);
+        return item;
+    }
+    public T Peek()
+    {
+        if (Count == 0)
+        {
+            throw new InvalidOperationException("Queue is empty.");
+        }
+        return items[0];
+    }
+}
