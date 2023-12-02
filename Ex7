@@ -1,0 +1,126 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        DoublyLinkedList<string> doublyLinkedList = new DoublyLinkedList<string>();
+        doublyLinkedList.AddToHead("World");
+        doublyLinkedList.AddToHead("Hello");
+
+        doublyLinkedList.AddToTail("!");
+
+        doublyLinkedList.Display();
+
+        doublyLinkedList.RemoveFromHead();
+        doublyLinkedList.RemoveFromTail();
+
+        doublyLinkedList.Display();
+
+    }
+}
+
+class Node<T>
+{
+    public T Data { get; set; }
+    public Node<T> Next { get; set; }
+    public Node<T> Previous { get; set; }
+
+    public Node(T data)
+    {
+        Data = data;
+        Next = null;
+        Previous = null;
+    }
+}
+
+class DoublyLinkedList<T>
+{
+    private Node<T> head;
+    private Node<T> tail;
+    private int count;
+
+    public int Count => count;
+
+    public DoublyLinkedList()
+    {
+        head = null;
+        tail = null;
+        count = 0;
+    }
+    public void AddToHead(T data)
+    {
+        Node<T> newNode = new Node<T>(data);
+
+        if (head == null)
+        {
+            head = newNode;
+            tail = newNode;
+        }
+        else
+        {
+            newNode.Next = head;
+            head.Previous = newNode;
+            head = newNode;
+        }
+        count++;
+    }
+    public void AddToTail(T data)
+    {
+        Node<T> newNode = new Node<T>(data);
+        if (head == null)
+        {
+            head = newNode;
+            tail = newNode;
+        }
+        else
+        {
+            tail.Next = newNode;
+            newNode.Previous = tail;
+            tail = newNode;
+        }
+        count++;
+    }
+    public void RemoveFromHead()
+    {
+        if (head != null)
+        {
+            head = head.Next;
+            if (head != null)
+            {
+                head.Previous = null;
+            }
+            else
+            {
+                tail = null;
+            }
+            count--;
+        }
+    }
+    public void RemoveFromTail()
+    {
+        if (tail != null)
+        {
+            tail = tail.Previous;
+            if (tail != null)
+            {
+                tail.Next = null;
+            }
+            else
+            {
+                head = null;
+            }
+            count--;
+        }
+    }
+    public void Display()
+    {
+        Node<T> current = head;
+        while (current != null)
+        {
+            Console.Write(current.Data + " ");
+            current = current.Next;
+        }
+        Console.WriteLine();
+    }
+}
